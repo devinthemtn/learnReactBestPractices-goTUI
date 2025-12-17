@@ -1,8 +1,18 @@
-# React Best Practices TUI 🚀
+# React Best Practices Learning Suite 🚀
 
-A Terminal User Interface (TUI) application that teaches React project structure and filesystem best practices through interactive lessons, examples, and quizzes.
+Interactive applications that teach React project structure and filesystem best practices through engaging lessons, examples, and quizzes. Available in both **Terminal (TUI)** and **Graphical (GUI)** versions.
 
-## Features 📚
+## 🖥️ Choose Your Interface
+
+### 📟 Terminal User Interface (TUI)
+Perfect for developers who prefer command-line tools and minimal interfaces.
+
+### 🎨 Graphical User Interface (GUI) - **NEW!**
+Modern desktop application with visual progress tracking, interactive dialogs, and mouse navigation.
+
+> **Quick Start GUI**: `cd gui && ./launch.sh --test` (validation) or `./launch.sh` (full GUI)
+
+## TUI Features 📚
 
 - **Interactive Lessons**: Learn React project organization through structured modules
 - **Working Quiz System**: Test your knowledge with interactive quizzes (press 't' in any lesson)
@@ -198,12 +208,72 @@ This project is open source and available under the [MIT License](LICENSE).
 - Built with the excellent Charm TUI libraries
 - Inspired by the need for better developer education tools
 
+## GUI Application 🎨
+
+### Modern Desktop Experience
+The GUI version provides all TUI functionality with enhanced visual elements:
+
+- **Split-Panel Interface** - Lessons list (30%) + content area (70%)
+- **Visual Progress Tracking** - Progress bars and completion indicators
+- **Interactive Quizzes** - Modal dialogs with radio buttons and navigation
+- **Project Structure Viewer** - Visual file trees with color-coded categories
+- **Menu System** - Standard File/View/Help menus with keyboard shortcuts
+- **Cross-Platform** - Works on Windows, macOS, and Linux
+
+### Quick Start
+```bash
+# Navigate to GUI directory
+cd gui
+
+# Test mode (works in any environment)
+./launch.sh --test
+
+# Full GUI (requires graphical environment)
+./launch.sh
+
+# Or build and run manually
+make build
+./build/react-gui
+```
+
+### GUI-Specific Features
+- 🎯 **Visual Progress** - Progress bars instead of text indicators
+- 🖱️ **Mouse Navigation** - Click to select lessons and interact
+- 🎨 **Color-Coded Files** - Visual file categories with appropriate icons
+- 📊 **Interactive Dialogs** - Modal windows for quizzes and examples
+- 🔄 **Resizable Layout** - Adaptive interface that scales with window size
+- 📱 **High DPI Support** - Crisp display on high-resolution screens
+
+### System Requirements
+- **Go 1.21+** - Modern Go with generics support
+- **GUI Environment** - X11/Wayland (Linux), native (Windows/macOS)
+- **Memory** - 512MB minimum, 2GB recommended
+- **Display** - 1024x768 minimum, 1920x1080 recommended
+
+### Troubleshooting
+If you encounter issues, see the comprehensive [GUI Troubleshooting Guide](gui/TROUBLESHOOTING.md).
+
+**Common Issue - No Display**: 
+```bash
+# Use test mode for headless environments
+./gui/launch.sh --test
+
+# Or force launch (not recommended)
+./gui/launch.sh --force
+```
+
+## Both Versions Include 📚
+
+All features are available in both TUI and GUI versions:
+
 ## Support 💬
 
 If you encounter any issues or have questions:
-1. Check the help screen (`?` key in the application)
-2. Review this README for usage instructions
-3. Open an issue on the repository
+1. **TUI Version**: Check the help screen (`?` key in the application)
+2. **GUI Version**: Use Help menu or see [GUI Troubleshooting Guide](gui/TROUBLESHOOTING.md)
+3. Review this README for usage instructions  
+4. Try test mode: `./gui/launch.sh --test` for GUI or `./react-tui` for TUI
+5. Open an issue on the repository
 
 ---
 
