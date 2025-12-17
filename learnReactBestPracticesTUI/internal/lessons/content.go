@@ -106,6 +106,7 @@ func getTopLevelStructureLesson() models.Lesson {
 					Type: models.NodeTypeDirectory,
 					Children: []models.FileNode{
 						{Name: "public", Type: models.NodeTypeDirectory, Category: models.CategoryPublic, IsHighlight: true},
+						{Name: "doc", Type: models.NodeTypeDirectory, Category: models.CategoryPublic, IsHighlight: true},
 						{Name: "src", Type: models.NodeTypeDirectory, Category: models.CategoryGeneral, IsHighlight: true},
 						{Name: ".env", Type: models.NodeTypeFile, Category: models.CategoryConfig},
 						{Name: ".gitignore", Type: models.NodeTypeFile, Category: models.CategoryConfig},
@@ -114,7 +115,7 @@ func getTopLevelStructureLesson() models.Lesson {
 						{Name: "vite.config.js", Type: models.NodeTypeFile, Category: models.CategoryConfig},
 					},
 				},
-				Explanation: "Clean separation between source code, static assets, and configuration files.",
+				Explanation: "Clean separation between source code, static assets, documentation, and configuration files.",
 			},
 		},
 		Quiz: []models.QuizQuestion{

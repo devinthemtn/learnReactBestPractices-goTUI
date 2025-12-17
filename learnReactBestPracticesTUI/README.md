@@ -126,11 +126,27 @@ learnReactBestPracticesTUI/
 │   └── ui/                      # User interface components
 │       ├── app.go               # Main application logic
 │       └── list.go              # List components and delegates
-├── React_Project_Structure_Best_Practices.md  # Source documentation
+├── doc/                         # Project documentation
+│   ├── README.md                # Documentation index
+│   ├── React_Project_Structure_Best_Practices.md  # Core guide
+│   ├── DEMO.md                  # Demo instructions  
+│   ├── QUIZ_TESTING.md          # Quiz functionality docs
+│   └── test-quiz.md             # Sample quiz content
 ├── go.mod                       # Go module dependencies
 ├── go.sum                       # Dependency checksums
 └── README.md                    # This file
 ```
+
+## Documentation 📖
+
+This project follows documentation best practices by organizing detailed documentation in a dedicated `doc/` folder:
+
+- **[Documentation Index](./doc/README.md)** - Overview of all available documentation
+- **[React Project Structure Best Practices](./doc/React_Project_Structure_Best_Practices.md)** - Comprehensive guide to React project organization
+- **[Demo Guide](./doc/DEMO.md)** - Instructions for running project demos
+- **[Quiz Testing](./doc/QUIZ_TESTING.md)** - Information about quiz functionality
+
+The main README.md stays at the project root for GitHub visibility, while detailed documentation lives in the `doc/` folder for better organization and discoverability.
 
 ## Technical Details 🔧
 
