@@ -15,6 +15,7 @@ func GetAllLessons() []models.Lesson {
 		getColocationLesson(),
 		getScalingLesson(),
 		getDocumentationLesson(),
+		getJSDocLesson(),
 		getAntiPatternsLesson(),
 	}
 }
@@ -442,6 +443,98 @@ func getDocumentationLesson() models.Lesson {
 				Options:     []string{"It makes the repository larger", "It keeps the root directory clean and organized", "It hides documentation from users", "It makes documentation harder to find"},
 				Correct:     1,
 				Explanation: "A doc/ folder keeps the project root clean while organizing detailed documentation in a discoverable location. This is an industry standard pattern.",
+			},
+		},
+	}
+}
+
+func getJSDocLesson() models.Lesson {
+	return models.Lesson{
+		ID:          "jsdoc-type-safety",
+		Title:       "JSDoc for Type Safety & Documentation",
+		Description: "Learn how to use JSDoc for type definitions and documentation in JavaScript React projects",
+		Duration:    time.Minute * 15,
+		Content: []models.ContentSection{
+			{
+				Title:   "Why JSDoc Matters for React Projects",
+				Type:    models.ContentTypeText,
+				Content: "JSDoc provides type safety and documentation for JavaScript projects without requiring TypeScript:\n• Type safety and error catching during development\n• Better IDE support with autocomplete and refactoring\n• Self-documenting code that serves as inline documentation\n• Gradual adoption - add types incrementally\n• Build-time type checking using TypeScript compiler",
+			},
+			{
+				Title:   "Basic JSDoc Type Annotations",
+				Type:    models.ContentTypeExample,
+				Content: "Function with typed parameters and return:\n/**\n * Formats a user's display name\n * @param {Object} user - The user object\n * @param {string} user.firstName - User's first name\n * @param {string} user.lastName - User's last name\n * @returns {string} The formatted display name\n */\nfunction formatUserName(user) {\n  return `${user.firstName} ${user.lastName}`;\n}",
+			},
+			{
+				Title:   "Variable Type Definitions",
+				Type:    models.ContentTypeExample,
+				Content: "Defining types for variables and collections:\n/** @type {string[]} */\nconst userIds = ['user-1', 'user-2'];\n\n/** @type {Map<string, User>} */\nconst userCache = new Map();\n\n/** @typedef {Object} ApiResponse\n * @property {boolean} success\n * @property {string} message\n * @property {*} [data] - Optional response data\n */",
+			},
+			{
+				Title:   "React Component JSDoc Patterns",
+				Type:    models.ContentTypeExample,
+				Content: "Typing React components and props:\n/**\n * @typedef {Object} ButtonProps\n * @property {string} text - Button text\n * @property {'primary'|'secondary'} [variant='primary']\n * @property {function(): void} onClick - Click handler\n */\n\n/**\n * Reusable Button component\n * @param {ButtonProps} props\n * @returns {React.JSX.Element}\n */\nfunction Button({ text, variant = 'primary', onClick }) {\n  return <button className={`btn-${variant}`} onClick={onClick}>{text}</button>;\n}",
+			},
+			{
+				Title:   "Setting Up Type Checking",
+				Type:    models.ContentTypePrinciple,
+				Content: "1. INSTALL TYPESCRIPT - npm install --save-dev typescript\n2. CREATE CONFIG - Add jsconfig.json or tsconfig.json with checkJs: true\n3. ADD SCRIPTS - Include 'type-check': 'tsc --noEmit' in package.json\n4. CONFIGURE EDITOR - Enable TypeScript validation in VS Code settings",
+			},
+		},
+		Examples: []models.ProjectExample{
+			{
+				Name:        "Good: Well-Documented Component with JSDoc",
+				Description: "Component with comprehensive JSDoc type annotations",
+				IsGood:      true,
+				Structure: models.FileNode{
+					Name:     "UserProfile.jsx",
+					Type:     models.NodeTypeFile,
+					Category: models.CategoryComponent,
+					Children: []models.FileNode{
+						{Name: "// JSDoc type definitions", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "// @typedef ButtonProps", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "// @param {ButtonProps} props", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "// @returns {React.JSX.Element}", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+					},
+				},
+				Explanation: "JSDoc provides clear type definitions, parameter documentation, and return types, making the component self-documenting and enabling better IDE support.",
+			},
+			{
+				Name:        "Bad: Undocumented Component Without Types",
+				Description: "Component lacking type information and documentation",
+				IsGood:      false,
+				Structure: models.FileNode{
+					Name:     "UserProfile.jsx",
+					Type:     models.NodeTypeFile,
+					Category: models.CategoryComponent,
+					Children: []models.FileNode{
+						{Name: "// No type information", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "// No parameter documentation", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "// No return type specified", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "// Unclear prop expectations", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+					},
+				},
+				Explanation: "Without JSDoc, developers must guess prop types and expected behavior, leading to runtime errors and poor developer experience.",
+			},
+		},
+		Quiz: []models.QuizQuestion{
+			{
+				Question:    "What is the main benefit of using JSDoc in JavaScript React projects?",
+				Options:     []string{"It compiles to smaller bundles", "It provides type safety and better IDE support", "It automatically generates CSS", "It replaces the need for testing"},
+				Correct:     1,
+				Explanation: "JSDoc provides type safety, better autocomplete, error detection, and serves as inline documentation, all without requiring TypeScript migration.",
+			},
+			{
+				Question:    "Which JSDoc tag is used to define the type of a variable?",
+				Options:     []string{"@param", "@type", "@returns", "@typedef"},
+				Correct:     1,
+				Explanation: "The @type tag is used to specify the type of a variable, e.g., /** @type {string[]} */ const names = [];",
+			},
+			{
+				Question:    "How do you enable type checking for JSDoc annotations?",
+				Options:     []string{"Install a special JSDoc compiler", "Add checkJs: true to tsconfig.json and run tsc --noEmit", "Use a different file extension", "JSDoc doesn't support type checking"},
+				Correct:     1,
+				Explanation: "You can use TypeScript's compiler with checkJs: true in tsconfig.json and run 'tsc --noEmit' to type-check JSDoc annotations without generating output files.",
 			},
 		},
 	}

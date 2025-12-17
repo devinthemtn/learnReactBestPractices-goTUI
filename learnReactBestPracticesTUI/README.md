@@ -99,7 +99,12 @@ Learn the fundamental principles of React project organization:
    - Clear naming conventions for documentation files
    - Two-tier documentation strategy
 
-8. **Common Anti-Patterns to Avoid** (~10 min) • 3 quiz questions
+8. **JSDoc for Type Safety & Documentation** (~15 min) • 3 quiz questions
+   - Using JSDoc for type annotations in JavaScript React projects
+   - Setting up type checking with TypeScript compiler
+   - Component and function documentation patterns
+
+9. **Common Anti-Patterns to Avoid** (~10 min) • 3 quiz questions
    - Organizing by file type instead of feature
    - Deep nesting problems
    - Generic naming issues

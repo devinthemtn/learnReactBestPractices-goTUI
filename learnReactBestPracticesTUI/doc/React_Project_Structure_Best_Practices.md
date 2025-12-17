@@ -72,12 +72,13 @@ project-root/
 6. [Avoid Deep Nesting](#6-avoid-deep-nesting)
 7. [Environment Variables & Secrets](#7-environment-variables--secrets)
 8. [Documentation Organization & Best Practices](#8-documentation-organization--best-practices)
-9. [Git Best Practices](#9-git-best-practices)
-10. [Scaling Considerations](#10-scaling-considerations)
-11. [Testing Structure](#11-testing-structure)
-12. [Common Anti-Patterns to Avoid](#12-common-anti-patterns-to-avoid)
-13. [Tooling & Automation](#13-tooling--automation)
-14. [Example: Well-Structured React Project](#14-example-well-structured-react-project)
+9. [JSDoc for Type Safety & Documentation](#9-jsdoc-for-type-safety--documentation)
+10. [Git Best Practices](#10-git-best-practices)
+11. [Scaling Considerations](#11-scaling-considerations)
+12. [Testing Structure](#12-testing-structure)
+13. [Common Anti-Patterns to Avoid](#13-common-anti-patterns-to-avoid)
+14. [Tooling & Automation](#14-tooling--automation)
+15. [Example: Well-Structured React Project](#15-example-well-structured-react-project)
 
 ---
 
@@ -733,7 +734,267 @@ doc/
 
 ---
 
-### 9. Git Best Practices
+### 9. JSDoc for Type Safety & Documentation
+
+JSDoc provides excellent type safety and documentation for JavaScript projects, especially when TypeScript isn't an option. It offers compile-time type checking and better IDE support.
+
+#### **Why Use JSDoc?**
+- **Type Safety**: Catch type errors during development without TypeScript
+- **Better IDE Support**: Autocomplete, refactoring, and error detection
+- **Self-Documenting Code**: Types serve as inline documentation
+- **Gradual Adoption**: Add types incrementally to existing projects
+- **Build-Time Checking**: Use TypeScript compiler to validate JSDoc types
+
+#### **Basic Type Annotations**
+
+**Function Parameters and Return Types:**
+```javascript
+/**
+ * Formats a user's display name
+ * @param {Object} user - The user object
+ * @param {string} user.firstName - User's first name
+ * @param {string} user.lastName - User's last name
+ * @param {boolean} [user.showMiddle=false] - Whether to include middle name
+ * @returns {string} The formatted display name
+ */
+function formatUserName(user) {
+  return `${user.firstName} ${user.lastName}`;
+}
+```
+
+**Variable Type Definitions:**
+```javascript
+/**
+ * @typedef {Object} ApiResponse
+ * @property {boolean} success - Whether the request succeeded
+ * @property {string} message - Response message
+ * @property {*} [data] - Optional response data
+ */
+
+/** @type {ApiResponse} */
+const response = await fetchUserData();
+
+/** @type {string[]} */
+const userIds = ['user-1', 'user-2', 'user-3'];
+
+/** @type {Map<string, User>} */
+const userCache = new Map();
+```
+
+#### **React Component Type Definitions**
+
+**Functional Components:**
+```javascript
+/**
+ * @typedef {Object} ButtonProps
+ * @property {string} text - Button text
+ * @property {'primary'|'secondary'|'danger'} [variant='primary'] - Button style variant
+ * @property {boolean} [disabled=false] - Whether button is disabled
+ * @property {function(): void} onClick - Click handler function
+ * @property {React.ReactNode} [children] - Child elements
+ */
+
+/**
+ * Reusable Button component
+ * @param {ButtonProps} props - Component props
+ * @returns {React.JSX.Element}
+ */
+function Button({ text, variant = 'primary', disabled = false, onClick, children }) {
+  return (
+    <button 
+      className={`btn btn-${variant}`}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {children || text}
+    </button>
+  );
+}
+```
+
+**Custom Hooks:**
+```javascript
+/**
+ * @typedef {Object} UseApiResult
+ * @property {*} data - The fetched data
+ * @property {boolean} loading - Loading state
+ * @property {Error|null} error - Error object if request failed
+ * @property {function(): void} refetch - Function to refetch data
+ */
+
+/**
+ * Custom hook for API data fetching
+ * @param {string} url - API endpoint URL
+ * @param {Object} [options] - Fetch options
+ * @returns {UseApiResult}
+ */
+function useApi(url, options = {}) {
+  // Hook implementation...
+}
+```
+
+#### **Complex Type Definitions**
+
+**Nested Objects and Arrays:**
+```javascript
+/**
+ * @typedef {Object} Address
+ * @property {string} street - Street address
+ * @property {string} city - City name
+ * @property {string} state - State/province
+ * @property {string} zipCode - Postal code
+ */
+
+/**
+ * @typedef {Object} User
+ * @property {string} id - Unique user identifier
+ * @property {string} email - User's email address
+ * @property {string} name - Full name
+ * @property {Address} address - User's address
+ * @property {string[]} roles - Array of user roles
+ * @property {Object<string, any>} preferences - User preferences object
+ * @property {Date} createdAt - Account creation date
+ */
+
+/**
+ * Process multiple users
+ * @param {User[]} users - Array of user objects
+ * @returns {Promise<User[]>} Processed users
+ */
+async function processUsers(users) {
+  // Implementation...
+}
+```
+
+#### **Generic Types and Utilities**
+
+**Generic Functions:**
+```javascript
+/**
+ * @template T
+ * @param {T[]} array - Array to get first element from
+ * @returns {T|undefined} First element or undefined
+ */
+function getFirst(array) {
+  return array[0];
+}
+
+/**
+ * @template K,V
+ * @param {Object<K,V>} obj - Object to get entries from
+ * @returns {Array<[K,V]>} Array of key-value pairs
+ */
+function getEntries(obj) {
+  return Object.entries(obj);
+}
+```
+
+#### **Setting Up Type Checking**
+
+**1. Install TypeScript (for type checking only):**
+```bash
+npm install --save-dev typescript
+```
+
+**2. Create `jsconfig.json` or `tsconfig.json`:**
+```json
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "strict": true,
+    "baseUrl": "src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build"]
+}
+```
+
+**3. Add Type Checking Scripts:**
+```json
+{
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch"
+  }
+}
+```
+
+**4. VS Code Settings (`.vscode/settings.json`):**
+```json
+{
+  "typescript.preferences.checkJs": true,
+  "javascript.preferences.checkJs": true,
+  "typescript.validate.enable": true,
+  "javascript.validate.enable": true
+}
+```
+
+#### **Best Practices for JSDoc**
+
+**✅ Do:**
+- Define complex types with `@typedef` at the top of files
+- Use specific types instead of generic `Object` or `*`
+- Document all function parameters and return values
+- Use optional parameters syntax `[param=default]`
+- Create separate `.d.ts` files for shared types in large projects
+- Use `@template` for generic functions
+- Add descriptions that explain the "why", not just the "what"
+
+**❌ Don't:**
+- Skip type annotations for public functions
+- Use `any` or `*` unless absolutely necessary
+- Forget to update JSDoc when changing function signatures
+- Over-document obvious things (e.g., `@param {string} name - The name`)
+- Mix JSDoc and TypeScript in the same project inconsistently
+
+#### **Common JSDoc Tags**
+
+```javascript
+/**
+ * @param {type} name - Description
+ * @returns {type} Description
+ * @throws {ErrorType} When this error occurs
+ * @example
+ * // Usage example
+ * const result = myFunction('input');
+ * 
+ * @since 1.2.0
+ * @deprecated Use newFunction() instead
+ * @see {@link https://example.com} Related documentation
+ * @todo Implement caching mechanism
+ * @author John Doe <john@example.com>
+ */
+```
+
+#### **Integration with Build Tools**
+
+**ESLint Configuration:**
+```json
+{
+  "extends": ["eslint:recommended"],
+  "plugins": ["jsdoc"],
+  "rules": {
+    "jsdoc/check-param-names": "error",
+    "jsdoc/check-tag-names": "error",
+    "jsdoc/check-types": "error",
+    "jsdoc/require-param": "error",
+    "jsdoc/require-param-description": "error",
+    "jsdoc/require-returns": "error"
+  }
+}
+```
+
+Using JSDoc effectively gives you most of the benefits of TypeScript while keeping the simplicity of JavaScript. It's especially valuable for teams transitioning to stronger typing or working with JavaScript-only codebases.
+
+---
+
+### 10. Git Best Practices
 
 **`.gitignore` Essentials:**
 ```
@@ -777,7 +1038,7 @@ Update README with setup instructions
 
 ---
 
-### 10. Scaling Considerations
+### 11. Scaling Considerations
 
 As your project grows, you may need to adapt structure:
 
@@ -824,7 +1085,7 @@ src/
 
 ---
 
-### 11. Testing Structure
+### 12. Testing Structure
 
 **Colocate Tests with Components:**
 ```
@@ -849,7 +1110,7 @@ tests/
 
 ---
 
-### 12. Common Anti-Patterns to Avoid
+### 13. Common Anti-Patterns to Avoid
 
 #### **❌ Organizing by File Type Instead of Feature**
 ```
@@ -910,7 +1171,7 @@ project-c/src/utils/formatDate.js
 
 ---
 
-### 13. Tooling & Automation
+### 14. Tooling & Automation
 
 **Use Linters and Formatters:**
 - **ESLint** - Catch bugs and enforce code quality
@@ -944,7 +1205,7 @@ import Button from '@/components/ui/Button';
 
 ---
 
-### 14. Example: Well-Structured React Project
+### 15. Example: Well-Structured React Project
 
 ```
 my-react-app/
@@ -1046,6 +1307,6 @@ my-react-app/
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** December 17, 2024  
-**Author:** Spencer Kittle  
+**Last Updated:** December 17, 2025  
+**Author:** Spencer Kittle & Thomas Koefod 
 **Purpose:** General best practices for React project structure and filesystem organization
