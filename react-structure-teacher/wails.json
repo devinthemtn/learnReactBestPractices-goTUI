@@ -1,0 +1,27 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "React Structure Teacher",
+  "outputfilename": "react-structure-teacher",
+  "frontend:install": "cd frontend && npm install",
+  "frontend:build": "cd frontend && npm run build",
+  "frontend:dev:watcher": "cd frontend && npm run dev",
+  "frontend:dev:serverUrl": "http://localhost:3000",
+  "frontend:dev:build": "cd frontend && npm run build",
+  "frontend:dev:install": "cd frontend && npm install",
+  "wailsjsdir": "./frontend/src",
+  "version": "v2",
+  "author": {
+    "name": "Thomas Koefod",
+    "email": ""
+  },
+  "info": {
+    "companyName": "",
+    "productName": "React Structure Teacher",
+    "productVersion": "1.0.0",
+    "copyright": "",
+    "comments": "An interactive GUI application for teaching React project structure best practices"
+  },
+  "nsisType": "multiple",
+  "obfuscated": false,
+  "garbleargs": ""
+}

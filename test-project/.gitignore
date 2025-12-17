@@ -1,0 +1,4 @@
+# Build output - commented out to include builds in git for deployment
+# build/bin
+node_modules
+# frontend/dist
