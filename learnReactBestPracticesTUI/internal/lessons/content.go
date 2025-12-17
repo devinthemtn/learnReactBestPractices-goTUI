@@ -14,6 +14,7 @@ func GetAllLessons() []models.Lesson {
 		getNamingConventionsLesson(),
 		getColocationLesson(),
 		getScalingLesson(),
+		getDocumentationLesson(),
 		getAntiPatternsLesson(),
 	}
 }
@@ -330,6 +331,117 @@ func getScalingLesson() models.Lesson {
 				Options:     []string{"More than 3-4 levels of nesting", "Having any tests", "Using TypeScript", "Having multiple components"},
 				Correct:     0,
 				Explanation: "Deep nesting (more than 3-4 levels) makes navigation difficult and is a sign that structure needs simplification.",
+			},
+		},
+	}
+}
+
+func getDocumentationLesson() models.Lesson {
+	return models.Lesson{
+		ID:          "documentation-organization",
+		Title:       "Documentation Organization",
+		Description: "Learn how to organize project documentation effectively",
+		Duration:    time.Minute * 12,
+		Content: []models.ContentSection{
+			{
+				Title:   "Why Documentation Organization Matters",
+				Type:    models.ContentTypeText,
+				Content: "Good documentation organization is as important as code organization:\n• Helps new developers get started quickly\n• Reduces time spent searching for information\n• Makes project maintenance easier\n• Improves team collaboration\n• Creates a professional project impression",
+			},
+			{
+				Title:   "The Two-Tier Documentation Strategy",
+				Type:    models.ContentTypePrinciple,
+				Content: "1. ESSENTIAL INFO AT ROOT - Keep README.md at project root with install instructions and quick start\n2. DETAILED DOCS IN DOC FOLDER - Use 'doc/' or 'docs/' folder for comprehensive documentation\n3. CLEAR NAMING - Use descriptive filenames so developers know what each document contains\n4. ORGANIZED STRUCTURE - Group related documentation into subdirectories",
+			},
+			{
+				Title:   "What Goes in README.md (Root Level)",
+				Type:    models.ContentTypeExample,
+				Content: "✅ Project title and brief description\n✅ Installation/setup instructions\n✅ Quick start guide\n✅ Basic usage examples\n✅ Link to detailed documentation\n✅ License and contribution info\n\n❌ Detailed API documentation\n❌ Architecture explanations\n❌ Troubleshooting guides\n❌ Change logs",
+			},
+			{
+				Title:   "What Goes in doc/ Folder",
+				Type:    models.ContentTypeExample,
+				Content: "✅ API documentation and examples\n✅ Architecture and design decisions\n✅ Detailed setup and deployment guides\n✅ Troubleshooting and FAQ\n✅ Contributing guidelines\n✅ Change logs and release notes\n✅ User guides and tutorials",
+			},
+		},
+		Examples: []models.ProjectExample{
+			{
+				Name:        "Good: Organized Documentation Structure",
+				Description: "Clear separation between essential and detailed documentation",
+				IsGood:      true,
+				Structure: models.FileNode{
+					Name: "project-root",
+					Type: models.NodeTypeDirectory,
+					Children: []models.FileNode{
+						{Name: "README.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: ".env.example", Type: models.NodeTypeFile, Category: models.CategoryConfig},
+						{
+							Name:     "doc",
+							Type:     models.NodeTypeDirectory,
+							Category: models.CategoryGeneral,
+							Children: []models.FileNode{
+								{Name: "README.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+								{Name: "architecture.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+								{Name: "deployment.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+								{
+									Name:     "api",
+									Type:     models.NodeTypeDirectory,
+									Category: models.CategoryGeneral,
+									Children: []models.FileNode{
+										{Name: "endpoints.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+										{Name: "authentication.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+									},
+								},
+								{
+									Name:     "guides",
+									Type:     models.NodeTypeDirectory,
+									Category: models.CategoryGeneral,
+									Children: []models.FileNode{
+										{Name: "getting-started.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+										{Name: "troubleshooting.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+									},
+								},
+							},
+						},
+						{Name: "src", Type: models.NodeTypeDirectory, Category: models.CategoryGeneral},
+						{Name: "package.json", Type: models.NodeTypeFile, Category: models.CategoryConfig},
+					},
+				},
+				Explanation: "Essential README.md stays at root for GitHub visibility, while detailed docs are organized in the doc/ folder with clear naming and structure.",
+			},
+			{
+				Name:        "Bad: Documentation Scattered at Root",
+				Description: "Documentation files mixed with code at project root",
+				IsGood:      false,
+				Structure: models.FileNode{
+					Name: "project-root",
+					Type: models.NodeTypeDirectory,
+					Children: []models.FileNode{
+						{Name: "README.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "API_DOCS.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "SETUP.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "notes.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "deployment_guide.txt", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "TROUBLESHOOTING.md", Type: models.NodeTypeFile, Category: models.CategoryGeneral},
+						{Name: "src", Type: models.NodeTypeDirectory, Category: models.CategoryGeneral},
+						{Name: "package.json", Type: models.NodeTypeFile, Category: models.CategoryConfig},
+					},
+				},
+				Explanation: "Root directory is cluttered with documentation files, making it hard to find code-related files and navigate the project.",
+			},
+		},
+		Quiz: []models.QuizQuestion{
+			{
+				Question:    "What should be kept in the root-level README.md file?",
+				Options:     []string{"Complete API documentation", "Installation instructions and quick start", "Detailed architecture explanations", "All project documentation"},
+				Correct:     1,
+				Explanation: "The root README.md should contain essential information like installation instructions and quick start guide, while detailed documentation goes in the doc/ folder.",
+			},
+			{
+				Question:    "What is the main benefit of using a 'doc/' folder for detailed documentation?",
+				Options:     []string{"It makes the repository larger", "It keeps the root directory clean and organized", "It hides documentation from users", "It makes documentation harder to find"},
+				Correct:     1,
+				Explanation: "A doc/ folder keeps the project root clean while organizing detailed documentation in a discoverable location. This is an industry standard pattern.",
 			},
 		},
 	}

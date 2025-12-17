@@ -94,7 +94,12 @@ Learn the fundamental principles of React project organization:
    - Small vs medium vs large project organization
    - When to refactor your structure
 
-7. **Common Anti-Patterns to Avoid** (~10 min) • 3 quiz questions
+7. **Documentation Organization** (~12 min) • 2 quiz questions
+   - Essential info in README.md vs detailed docs in doc/ folder
+   - Clear naming conventions for documentation files
+   - Two-tier documentation strategy
+
+8. **Common Anti-Patterns to Avoid** (~10 min) • 3 quiz questions
    - Organizing by file type instead of feature
    - Deep nesting problems
    - Generic naming issues

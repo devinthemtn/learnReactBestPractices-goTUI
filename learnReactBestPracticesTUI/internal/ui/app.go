@@ -146,6 +146,11 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		a.lessonList.SetHeight(msg.Height - 8)
 
 	case tea.KeyMsg:
+		// Handle quiz state separately to ensure all keys are processed
+		if a.state == models.StateQuiz {
+			return a.updateQuiz(msg)
+		}
+
 		switch {
 		case key.Matches(msg, a.keymap.Quit):
 			return a, tea.Quit
@@ -193,8 +198,6 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					}
 				}
 				return a, nil
-			case models.StateQuiz:
-				return a.updateQuiz(msg)
 			}
 		}
 	}
@@ -607,6 +610,8 @@ func (a *App) updateQuiz(msg tea.KeyMsg) (*App, tea.Cmd) {
 		}
 	case key.Matches(msg, a.keymap.Back):
 		a.state = models.StateLessonView
+	case key.Matches(msg, a.keymap.Quit):
+		return a, tea.Quit
 	}
 
 	return a, nil
